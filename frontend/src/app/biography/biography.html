@@ -1,0 +1,152 @@
+<div class="bio-page">
+
+  <!-- ===== HERO BANNER ===== -->
+  <div class="bio-hero">
+    <div class="bio-hero-bg">
+      <div class="floating-particle p1">✦</div>
+      <div class="floating-particle p2">★</div>
+      <div class="floating-particle p3">✦</div>
+      <div class="floating-particle p4">◆</div>
+      <div class="floating-particle p5">★</div>
+      <div class="floating-particle p6">✦</div>
+    </div>
+    <div class="bio-hero-content">
+      <div class="bio-hero-badge">
+        <span class="badge-dot"></span>
+        Tiểu sử & Tư tưởng
+      </div>
+      <h1 class="bio-hero-title">
+        Chủ tịch<br>
+        <span class="bio-hero-name">Hồ Chí Minh</span>
+      </h1>
+      <p class="bio-hero-sub">19/5/1890 — 2/9/1969 · Người cha của dân tộc Việt Nam</p>
+
+      <div class="bio-hero-stats">
+        <div class="hero-stat">
+          <div class="stat-number">79</div>
+          <div class="stat-label">Tuổi đời</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat">
+          <div class="stat-number">30</div>
+          <div class="stat-label">Năm bôn ba</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat">
+          <div class="stat-number">58</div>
+          <div class="stat-label">Năm hoạt động</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="hero-stat">
+          <div class="stat-number">50+</div>
+          <div class="stat-label">Bút danh</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TABS ===== -->
+  <div class="bio-tabs">
+    <button class="bio-tab" [class.active]="activeTab === 'timeline'" (click)="setTab('timeline')">
+      <span class="tab-icon">📅</span>
+      Dòng thời gian
+    </button>
+    <button class="bio-tab" [class.active]="activeTab === 'ideology'" (click)="setTab('ideology')">
+      <span class="tab-icon">💡</span>
+      Hình thành tư tưởng
+    </button>
+  </div>
+
+  <!-- ===== TIMELINE TAB ===== -->
+  <div class="bio-panel" [class.active]="activeTab === 'timeline'">
+    <div class="timeline-intro">
+      <h2 class="panel-title">Những mốc lịch sử vĩ đại</h2>
+      <p class="panel-sub">Hành trình cuộc đời Chủ tịch Hồ Chí Minh qua các giai đoạn lịch sử</p>
+    </div>
+
+    <div class="timeline-track">
+      <div class="timeline-line"></div>
+
+      @for (item of milestones; track item.year; let i = $index) {
+      <div class="milestone-item" [class.left]="item.side === 'left'" [class.right]="item.side === 'right'"
+        [style.--accent]="item.color" (click)="toggleMilestone(i)">
+
+        <!-- Center dot -->
+        <div class="milestone-dot">
+          <span class="milestone-dot-icon">{{ item.icon }}</span>
+          <div class="milestone-dot-ring"></div>
+        </div>
+
+        <!-- Card -->
+        <div class="milestone-card" [class.expanded]="expandedMilestone === i">
+          <div class="milestone-year" [style.color]="item.color">{{ item.year }}</div>
+          <h3 class="milestone-title">{{ item.title }}</h3>
+          <p class="milestone-desc">{{ item.description }}</p>
+
+          <div class="milestone-detail" [class.show]="expandedMilestone === i">
+            <div class="detail-divider"></div>
+            <p class="detail-text">{{ item.detail }}</p>
+          </div>
+
+          <div class="milestone-toggle">
+            <span>{{ expandedMilestone === i ? 'Thu gọn ▲' : 'Đọc thêm ▼' }}</span>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- ===== IDEOLOGY TAB ===== -->
+  <div class="bio-panel" [class.active]="activeTab === 'ideology'">
+    <div class="ideology-intro">
+      <h2 class="panel-title">Quá trình hình thành tư tưởng</h2>
+      <p class="panel-sub">Hành trình từ lòng yêu nước đến hệ thống tư tưởng Hồ Chí Minh vĩ đại</p>
+    </div>
+
+    <div class="ideology-path">
+      <div class="ideology-connector"></div>
+
+      @for (stage of ideologyStages; track stage.period; let i = $index) {
+      <div class="ideology-card" [style.--accent]="stage.color">
+
+        <div class="ideology-number">{{ i + 1 }}</div>
+
+        <div class="ideology-header">
+          <div class="ideology-icon-wrap" [style.background]="stage.color + '22'"
+            [style.border-color]="stage.color + '44'">
+            <span class="ideology-icon">{{ stage.icon }}</span>
+          </div>
+          <div class="ideology-meta">
+            <span class="ideology-period">{{ stage.period }}</span>
+            <h3 class="ideology-title">{{ stage.title }}</h3>
+            <p class="ideology-subtitle">{{ stage.subtitle }}</p>
+          </div>
+        </div>
+
+        <ul class="ideology-list">
+          @for (point of stage.content; track point) {
+          <li class="ideology-point">
+            <span class="point-bullet" [style.color]="stage.color">▸</span>
+            {{ point }}
+          </li>
+          }
+        </ul>
+
+        <div class="ideology-glow" [style.background]="stage.color"></div>
+      </div>
+      }
+    </div>
+
+    <!-- Quote banner -->
+    <div class="quote-banner">
+      <div class="quote-marks">"</div>
+      <blockquote class="quote-text">
+        Không có gì quý hơn độc lập, tự do.
+      </blockquote>
+      <cite class="quote-author">— Chủ tịch Hồ Chí Minh</cite>
+      <div class="quote-marks right">"</div>
+    </div>
+  </div>
+
+</div>

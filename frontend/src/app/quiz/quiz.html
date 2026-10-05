@@ -1,0 +1,136 @@
+<div class="quiz-page">
+  <div class="quiz-container">
+
+    <!-- HEADER -->
+    <div class="quiz-header text-center">
+      <h1 class="section-title">Quiz Trắc Nghiệm</h1>
+      <p class="section-subtitle">Tìm hiểu tư tưởng Hồ Chí Minh qua các thẻ bài</p>
+    </div>
+
+    <!-- VIEW 1: CATEGORY SELECTION -->
+    @if (activeView === 'categories') {
+    <div class="categories-view fade-in">
+      <h2 class="view-title">Chọn một chủ đề để bắt đầu</h2>
+
+      <div class="cards-grid">
+        @for (cat of categories; track cat.id) {
+        <div class="topic-card" [style.--theme-color]="cat.color" (click)="startCategory(cat)">
+          <div class="card-icon-wrap" [style.background]="cat.color + '22'">
+            <span class="card-icon">{{ cat.icon }}</span>
+          </div>
+          <h3 class="card-title">{{ cat.title }}</h3>
+          <p class="card-desc">{{ cat.description }}</p>
+
+          <div class="card-action">
+            <span>Khám phá ngay</span>
+            <span class="arrow">→</span>
+          </div>
+          <div class="card-glow" [style.background]="cat.color"></div>
+        </div>
+        }
+      </div>
+    </div>
+    }
+
+    <!-- VIEW 2: QUIZ PLAYING -->
+    @if (activeView === 'quiz' && selectedCategory) {
+    <div class="quiz-play-view slide-in">
+      <!-- Top bar -->
+      <div class="quiz-topbar">
+        <button class="btn-back" (click)="backToCategories()">
+          <span>←</span> Quay lại
+        </button>
+        <div class="quiz-progress-info">
+          <span class="badge" [style.background]="selectedCategory.color + '33'" [style.color]="selectedCategory.color">
+            {{ selectedCategory.icon }} {{ selectedCategory.title }}
+          </span>
+          <span class="q-count">Câu hỏi {{ currentQuestionIndex + 1 }} / {{ currentQuestions.length }}</span>
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width]="((currentQuestionIndex + 1) / currentQuestions.length * 100) + '%'"
+          [style.background]="selectedCategory.color"></div>
+      </div>
+
+      <!-- Question Card -->
+      <div class="question-card">
+        <h2 class="question-text">{{ currentQuestion.text }}</h2>
+
+        <div class="options-list">
+          @for (option of currentQuestion.options; track option; let i = $index) {
+          <button class="option-btn" [class.selected]="selectedOptionIndex === i"
+            [class.correct]="hasAnswered && i === currentQuestion.correctAnswerIndex"
+            [class.wrong]="hasAnswered && selectedOptionIndex === i && i !== currentQuestion.correctAnswerIndex"
+            [disabled]="hasAnswered" (click)="selectOption(i)">
+            <div class="option-letter">{{ ['A', 'B', 'C', 'D'][i] }}</div>
+            <div class="option-text">{{ option }}</div>
+
+            @if (hasAnswered && i === currentQuestion.correctAnswerIndex) {
+            <div class="option-icon correct-icon">✓</div>
+            }
+            @if (hasAnswered && selectedOptionIndex === i && i !== currentQuestion.correctAnswerIndex) {
+            <div class="option-icon wrong-icon">✕</div>
+            }
+          </button>
+          }
+        </div>
+
+        <!-- Explanation box -->
+        @if (hasAnswered) {
+        <div class="explanation-box fade-in"
+          [class.is-correct]="selectedOptionIndex === currentQuestion.correctAnswerIndex"
+          [class.is-wrong]="selectedOptionIndex !== currentQuestion.correctAnswerIndex">
+
+          <div class="expl-header">
+            <span class="expl-status">
+              {{ selectedOptionIndex === currentQuestion.correctAnswerIndex ? '🎉 Chính xác!' : '💡 Sai rồi!' }}
+            </span>
+          </div>
+          <p class="expl-text"><strong>Giải thích:</strong> {{ currentQuestion.explanation }}</p>
+
+          <button class="btn btn-next" [style.background]="selectedCategory.color" (click)="nextQuestion()">
+            {{ currentQuestionIndex === currentQuestions.length - 1 ? 'Xem kết quả' : 'Câu tiếp theo →' }}
+          </button>
+        </div>
+        }
+      </div>
+    </div>
+    }
+
+    <!-- VIEW 3: RESULT -->
+    @if (activeView === 'result' && selectedCategory) {
+    <div class="result-view zoom-in">
+      <div class="result-card">
+        <div class="result-icon">🏆</div>
+        <h2 class="result-title">Hoàn thành chủ đề!</h2>
+        <p class="result-subtitle">{{ selectedCategory.title }}</p>
+
+        <div class="score-circle" [style.color]="selectedCategory.color">
+          <span class="score-num">{{ score }}</span>
+          <span class="score-divider">/</span>
+          <span class="score-total">{{ currentQuestions.length }}</span>
+        </div>
+
+        <p class="result-msg">
+          @if (score === currentQuestions.length) {
+          Xuất sắc! Bạn nắm rất vững tư tưởng của Bác.
+          } @else if (score >= currentQuestions.length / 2) {
+          Khá lắm! Hãy tiếp tục tìm hiểu thêm nhé.
+          } @else {
+          Cố gắng lên! Có rất nhiều kiến thức hay về Bác đang chờ bạn.
+          }
+        </p>
+
+        <div class="result-actions">
+          <button class="btn btn-outline" (click)="backToCategories()">Chọn chủ đề khác</button>
+          <button class="btn btn-primary" [style.background]="selectedCategory.color" (click)="restartQuiz()">Chơi lại
+            chủ đề này</button>
+        </div>
+      </div>
+    </div>
+    }
+
+  </div>
+</div>

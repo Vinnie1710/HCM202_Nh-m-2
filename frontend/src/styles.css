@@ -1,0 +1,331 @@
+/* ============================================
+   GLOBAL STYLES - HCM Interactive Website
+   ============================================ */
+/* Font được load qua <link> trong index.html để tránh render-blocking */
+
+/* ---- CSS Variables ---- */
+:root {
+  --color-primary: #c0392b;
+  --color-primary-dark: #922b21;
+  --color-primary-light: #e74c3c;
+  --color-gold: #d4ac0d;
+  --color-gold-light: #f7dc6f;
+
+  --color-bg: #0f0f0f;
+  --color-bg-card: rgba(26, 26, 26, 0.35);
+  /* Translucent for glassmorphism */
+  --color-bg-card-hover: rgba(45, 45, 45, 0.5);
+  --color-bg-nav: rgba(15, 15, 15, 0.45);
+  --glass-blur: blur(16px);
+  /* Centralized blur value */
+
+  --color-text: #f0ece4;
+  --color-text-muted: #a0998e;
+  --color-text-dim: #6b6560;
+  --color-border: rgba(212, 172, 13, 0.2);
+  --color-border-hover: rgba(212, 172, 13, 0.5);
+
+  --font-family: 'Be Vietnam Pro', sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 20px rgba(192, 57, 43, 0.3);
+
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  --nav-height: 64px;
+}
+
+/* ---- Reset ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.7;
+  font-size: var(--font-size-base);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Typography ---- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: var(--font-size-4xl);
+}
+
+h2 {
+  font-size: var(--font-size-2xl);
+}
+
+h3 {
+  font-size: var(--font-size-xl);
+}
+
+p {
+  color: var(--color-text-muted);
+  line-height: 1.8;
+}
+
+a {
+  color: var(--color-primary-light);
+  text-decoration: none;
+  transition: color var(--transition-base);
+}
+
+a:hover {
+  color: var(--color-gold);
+}
+
+/* ---- Page Container ---- */
+.page-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: calc(var(--nav-height) + 2rem) 1.5rem 4rem;
+}
+
+/* ---- Section Title ---- */
+.section-title {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  color: var(--color-text-muted);
+  margin-bottom: 2.5rem;
+  font-size: var(--font-size-lg);
+}
+
+/* ---- Card ---- */
+.card {
+  background: var(--color-bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  transition: all var(--transition-base);
+}
+
+.card:hover {
+  background: var(--color-bg-card-hover);
+  border-color: var(--color-border-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition-base);
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(192, 57, 43, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(192, 57, 43, 0.6);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-gold);
+  border: 1px solid var(--color-gold);
+}
+
+.btn-secondary:hover {
+  background: var(--color-gold);
+  color: var(--color-bg);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+
+.btn-outline:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary-light);
+}
+
+/* ---- Loading Spinner ---- */
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+}
+
+.spinner::after {
+  content: '';
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- Divider ---- */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+  margin: 2rem 0;
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-dark);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  h1 {
+    font-size: var(--font-size-3xl);
+  }
+
+  h2 {
+    font-size: var(--font-size-xl);
+  }
+
+  .section-title {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+/* ============================================
+   GLOBAL ANIMATED BACKGROUND (HCM Background)
+   ============================================ */
+.global-animated-bg {
+  position: fixed;
+  inset: -5%;
+  /* Slightly larger to allow for panning/scaling without showing edges */
+  width: 110%;
+  height: 110%;
+  z-index: -10;
+  overflow: hidden;
+  pointer-events: none;
+  background-color: var(--color-bg);
+  background-image: url('assets/images/background_web.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.65;
+  /* Tăng độ sáng (từ 0.2 lên 0.65) để ảnh rõ nét hơn */
+  animation: bgWaveAndPan 15s ease-in-out infinite alternate;
+}
+
+/* Dark gradient overlay to ensure text readability */
+.bg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: -9;
+  pointer-events: none;
+  /* Giảm độ tối của màng bọc để ảnh sáng hơn nhiều, nhưng vẫn đủ giúp chữ trắng dễ đọc */
+  background: linear-gradient(to bottom, rgba(15, 15, 15, 0.3) 0%, rgba(15, 15, 15, 0.65) 100%);
+}
+
+/* Hide the old layers since we are using a single image now */
+.flag-layer,
+.hcm-layer {
+  display: none;
+}
+
+/* Animations for the background image to simulate wind/movement */
+@keyframes bgWaveAndPan {
+  0% {
+    transform: scale(1) translate(0, 0) skew(0deg, 0deg);
+    filter: contrast(1.1) saturate(1.2) brightness(1);
+  }
+
+  33% {
+    transform: scale(1.02) translate(-1%, 0.5%) skew(-0.5deg, 0.5deg);
+    filter: contrast(1.15) saturate(1.3) brightness(1.05);
+  }
+
+  66% {
+    transform: scale(1.04) translate(0.5%, -0.5%) skew(0.5deg, -0.5deg);
+    filter: contrast(1.1) saturate(1.25) brightness(0.95);
+  }
+
+  100% {
+    transform: scale(1.05) translate(1%, -1%) skew(1deg, 1deg);
+    filter: contrast(1.15) saturate(1.2) brightness(1.1);
+  }
+}

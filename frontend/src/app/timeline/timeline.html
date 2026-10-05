@@ -1,0 +1,63 @@
+<div class="page-container">
+
+  <h1 class="section-title">Timeline</h1>
+  <p class="section-subtitle">Những dấu mốc quan trọng trong cuộc đời Chủ tịch Hồ Chí Minh</p>
+
+  <!-- Skeleton loading -->
+  @if (isLoading) {
+    <div class="timeline-list">
+      @for (n of skeletonItems; track n) {
+        <div class="timeline-item">
+          <div class="timeline-connector">
+            <div class="timeline-dot skeleton-dot"></div>
+            <div class="timeline-line"></div>
+          </div>
+          <div class="timeline-body">
+            <div class="skeleton-card">
+              <div class="skeleton-block skeleton-year"></div>
+              <div class="skeleton-block skeleton-title"></div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Error -->
+  @if (errorMessage) {
+    <div class="error-box">⚠️ {{ errorMessage }}</div>
+  }
+
+  <!-- Timeline List -->
+  @if (!isLoading && !errorMessage) {
+    <div class="timeline-list">
+
+      @for (item of timeline; track item.id) {
+        <div class="timeline-item" [class.timeline-item--active]="isSelected(item.id)">
+
+          <div class="timeline-connector">
+            <div class="timeline-dot"></div>
+            <div class="timeline-line"></div>
+          </div>
+
+          <div class="timeline-body">
+            <div class="timeline-header" (click)="selectItem(item)">
+              <span class="timeline-period">{{ item.period }}</span>
+              <h3 class="timeline-title">{{ item.title }}</h3>
+              <span class="timeline-toggle">{{ isSelected(item.id) ? '▲' : '▼' }}</span>
+            </div>
+
+            @if (isSelected(item.id)) {
+              <div class="timeline-detail">
+                <p>{{ item.description }}</p>
+              </div>
+            }
+          </div>
+
+        </div>
+      }
+
+    </div>
+  }
+
+</div>

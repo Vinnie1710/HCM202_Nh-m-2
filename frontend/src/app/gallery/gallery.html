@@ -1,0 +1,111 @@
+<div class="gallery-page">
+
+  <!-- ===== HERO ===== -->
+  <div class="gallery-hero">
+    <div class="gallery-hero-glow"></div>
+    <div class="gallery-hero-content">
+      <div class="gallery-hero-badge">🖼️ Bộ sưu tập hình ảnh lịch sử</div>
+      <h1 class="section-title">Gallery</h1>
+      <p class="section-subtitle">Những khoảnh khắc lịch sử vĩ đại qua ống kính thời gian</p>
+      <div class="gallery-count">{{ filteredImages.length }} hình ảnh</div>
+    </div>
+  </div>
+
+  <!-- ===== CATEGORY FILTER ===== -->
+  <div class="gallery-filter-wrap">
+    <div class="gallery-filter" id="gallery-filter">
+      @for (cat of categories; track cat.key) {
+      <button class="filter-btn" [class.active]="activeCategory === cat.key" (click)="setCategory(cat.key)"
+        [id]="'filter-' + cat.key">
+        <span class="filter-icon">{{ cat.icon }}</span>
+        <span class="filter-label">{{ cat.label }}</span>
+        @if (cat.key !== 'all') {
+        <span class="filter-count">
+          {{ getCountByCategory(cat.key) }}
+        </span>
+        }
+      </button>
+      }
+    </div>
+  </div>
+
+  <!-- ===== GRID ===== -->
+  <div class="gallery-wrapper">
+    @if (filteredImages.length === 0) {
+    <div class="gallery-empty">
+      <span class="empty-icon">🔍</span>
+      <p>Không có hình ảnh trong danh mục này.</p>
+    </div>
+    }
+
+    <div class="gallery-grid" id="gallery-grid">
+      @for (image of filteredImages; track image.id; let i = $index) {
+      <div class="gallery-item" [id]="'gallery-item-' + image.id" (click)="showImage(image)"
+        [style.animation-delay]="(i * 60) + 'ms'">
+        <div class="gallery-img-wrap">
+          <img [src]="image.image" [alt]="image.title" loading="lazy" (error)="onImgError($event)">
+          <div class="gallery-overlay">
+            <span class="gallery-zoom-icon">🔍</span>
+            <span class="gallery-overlay-title">{{ image.title }}</span>
+          </div>
+          <div class="gallery-year-badge">{{ image.year }}</div>
+        </div>
+        <div class="gallery-caption">
+          <div class="caption-cat-dot" [class]="'cat-' + image.category"></div>
+          <div class="caption-text">
+            <h3>{{ image.title }}</h3>
+            <p>{{ image.description }}</p>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ===== LIGHTBOX MODAL ===== -->
+@if (selectedImage) {
+<div class="modal" (click)="closeImage()" id="gallery-modal">
+  <div class="modal-content" (click)="$event.stopPropagation()" id="gallery-modal-content">
+
+    <!-- Close -->
+    <button class="modal-close" (click)="closeImage()" aria-label="Đóng" id="modal-close-btn">✕</button>
+
+    <!-- Nav Prev -->
+    <button class="modal-nav modal-nav--prev" (click)="prevImage()" [disabled]="selectedIndex <= 0"
+      aria-label="Ảnh trước" id="modal-prev-btn">‹</button>
+
+    <!-- Image -->
+    <div class="modal-img-wrap">
+      <img [src]="selectedImage.image" [alt]="selectedImage.title" (error)="onImgError($event)" id="modal-image">
+    </div>
+
+    <!-- Nav Next -->
+    <button class="modal-nav modal-nav--next" (click)="nextImage()"
+      [disabled]="selectedIndex >= filteredImages.length - 1" aria-label="Ảnh tiếp" id="modal-next-btn">›</button>
+
+    <!-- Info -->
+    <div class="modal-info">
+      <div class="modal-info-top">
+        <div>
+          <h2 id="modal-title">{{ selectedImage.title }}</h2>
+          <p id="modal-description">{{ selectedImage.description }}</p>
+        </div>
+        <span class="modal-year-tag">{{ selectedImage.year }}</span>
+      </div>
+      <div class="modal-footer">
+        <span class="modal-counter" id="modal-counter">{{ selectedIndex + 1 }} / {{ filteredImages.length }}</span>
+        <div class="modal-dots">
+          @for (img of filteredImages; track img.id; let di = $index) {
+          <span class="modal-dot" [class.active]="di === selectedIndex"
+            (click)="jumpToImage(di); $event.stopPropagation()"></span>
+          }
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+}
